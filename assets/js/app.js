@@ -40,34 +40,37 @@ $('#setPlayerNameSend').on("click", function(event) {
 
     database.ref("players/" + x).set({playerName: playerName, playerWins: 0, playerChoice: "null"});
     isConnected.onDisconnect().remove();
-
+    welcome(playerName);
   };
 
   if ((player1 == false)) {
     setPlayer("player1");
     playerId = "player1";
     $(".gameControls1").append(
+      '<div class="btn-group" role="group" aria-label="Basic example">'+
+        '<button type="button" id="player1Rock" class="btn btn-secondary player1Button"><i class="far fa-hand-rock"></i> Rock</button>'+
+        '<button type="button" id="player1Paper" class="btn btn-secondary player1Button"><i class="far fa-hand-paper"></i> Paper</button>'+
+        '<button type="button" id="player1Scissors" class="btn btn-secondary player1Button"><i class="far fa-hand-scissors"></i> Scissors</button>'+
+      '</div>');
+    } else if (player1 && (player2 == false)) {
+      setPlayer("player2");
+      playerId = "player2";
+      $(".gameControls2").append(
         '<div class="btn-group" role="group" aria-label="Basic example">'+
-          '<button type="button" id="player1Rock" class="btn btn-secondary player1Button">Rock</button>'+
-          '<button type="button" id="player1Paper" class="btn btn-secondary player1Button">Paper</button>'+
-          '<button type="button" id="player1Scissors" class="btn btn-secondary player1Button">Scissors</button>'+
+          '<button type="button" id="player2Rock" class="btn btn-secondary player2Button"><i class="far fa-hand-rock"></i> Rock</button>'+
+          '<button type="button" id="player2Paper" class="btn btn-secondary player2Button"><i class="far fa-hand-paper"></i> Paper</button>'+
+          '<button type="button" id="player2Scissors" class="btn btn-secondary player2Button"><i class="far fa-hand-scissors"></i> Scissors</button>'+
         '</div>');
-  } else if (player1 && (player2 == false)) {
-    setPlayer("player2");
-    playerId = "player2";
-    $(".gameControls2").append(
-        '<div class="btn-group" role="group" aria-label="Basic example">'+
-          '<button type="button" id="player2Rock" class="btn btn-secondary player2Button">Rock</button>'+
-          '<button type="button" id="player2Paper" class="btn btn-secondary player2Button">Paper</button>'+
-          '<button type="button" id="player2Scissors" class="btn btn-secondary player2Button">Scissors</button>'+
-        '</div>');
-    $(".player2Button").prop("disabled",true);
-    //waiting on player one.
-  } else {
-    alert("Sorry, game session is full. Please try later!");
+      $(".player2Button").prop("disabled",true);
+      //waiting on player one.
+    } else {
+      alert("Sorry, game session is full. Please try later!");
   }
 });
 
+var welcome = function(name){
+    database.ref("messages").push({playerName: "GAME", playerMessage: "Welcome "+name+", you are now in the game!", playerId: "GAME"});
+};
 
 //listens to hear if 2 players are in the game and then sets the
 database.ref("players").on("value", function(childSnapshot){
