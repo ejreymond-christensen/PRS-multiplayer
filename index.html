@@ -4,23 +4,60 @@
     <meta charset="utf-8">
     <title>Paper Rock Scissors</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="assets/css/style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase.js"></script>
   </head>
   <body>
-    <section id="gameContainer">
-      <input type="text" id="setPlayerName" value="name">
-      <button id="setPlayerNameSend" type="submit">Send</button>
-
-    </section>
-    <section id="chatContainer">
-      <div class="messages">
-        <p><span>Player: </span>hello</p>
+    <div class="container">
+      <div class="row playerCreation">
+        <div class="col">
+          <input type="text" id="setPlayerName" value="name">
+          <button id="setPlayerNameSend" type="submit">Send</button>
+        </div>
       </div>
-      <input type="text" id="messageInput" value="type your message here">
-      <button id="messageSend" type="submit">Send</button>
-    </section>
+      <div class="row" id="gameContainer">
+        <div class="col-md-1">
+          &nbsp;
+        </div>
+        <div class="col-md-4">
+          <div class="playerTitle1">
+          </div>
+          <div class="gameControls1">
+          </div>
+        </div>
+        <div class="col-md-2">
+          &nbsp;
+        </div>
+        <div class="col-md-4">
+          <div class="playerTitle2">
+          </div>
+          <div class="gameControls2">
+          </div>
+        </div>
+        <div class="col-md-1">
+          &nbsp;
+        </div>
+      </div>
+      <div class="row" id="chatContainer">
+        <div class="col-md-1">
+          &nbsp;
+        </div>
+        <div class="col-md-10">
+          <div class="messages">
+          </div>
+          <div class="chatInputContainer">
+            <input type="text" id="messageInput" value="type your message here">
+            <button id="messageSend" type="submit">Send</button>
+          </div>
+        </div>
+        <div class="col-md-1">
+          &nbsp;
+        </div>
+      </div>
+    </div>
+
     <script src="assets/js/app.js"></script>
   </body>
 </html>

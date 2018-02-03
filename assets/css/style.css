@@ -1,14 +1,39 @@
 #chatContainer{
-  width: 600px;
-  height: 300px;
+  min-height: 300px;
 }
 
 .messages{
-  width: 600px;
-  height: 300px;
+  background-color: #ECEFF1;
   border: 2px solid grey;
+  width: 100%;
+  height: 300px;
+  overflow: scroll;
 }
 
 #messageInput{
-  width: 90%;
+  width: 93%;
+}
+.chatInputContainer{
+  /* position: relative; */
+  background-color: white;
+  height: 21px;
+  /* bottom: 20px;
+  right: 0px; */
+}
+.bubble{
+  margin-left: 10px;
+  padding: 2px 8px;
+  border-radius: 0 20px 20px 20px;
+  /* border: 1px solid grey; */
+  /* opacity: .8; */
+  box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.75);
+}
+.chatName{
+  font-weight: bold;
+}
+.player1{
+  background-color: #FFF;
+}
+.player2{
+  background-color: #C4CFD4;
 }
