@@ -28,6 +28,8 @@ database.ref("/players").on("value", function(snapshot) {
   }
 });
 
+database.ref("turn").set({turn: false});
+
 $('#setPlayerNameSend').on("click", function(event) {
   event.preventDefault();
   $('.playerCreation').hide();
@@ -49,8 +51,7 @@ $('#setPlayerNameSend').on("click", function(event) {
           '<button type="button" id="player1Rock" class="btn btn-secondary player1Button">Rock</button>'+
           '<button type="button" id="player1Paper" class="btn btn-secondary player1Button">Paper</button>'+
           '<button type="button" id="player1Scissors" class="btn btn-secondary player1Button">Scissors</button>'+
-        '</div>'+
-        '<h3 id="player1choice"></h3>');
+        '</div>');
   } else if (player1 && (player2 == false)) {
     setPlayer("player2");
     playerId = "player2";
@@ -59,9 +60,9 @@ $('#setPlayerNameSend').on("click", function(event) {
           '<button type="button" id="player2Rock" class="btn btn-secondary player2Button">Rock</button>'+
           '<button type="button" id="player2Paper" class="btn btn-secondary player2Button">Paper</button>'+
           '<button type="button" id="player2Scissors" class="btn btn-secondary player2Button">Scissors</button>'+
-        '</div>'+
-        '<h3 id="player2choice"></h3>'
-        );
+        '</div>');
+    $(".player2Button").prop("disabled",true);
+    //waiting on player one.
   } else {
     alert("Sorry, game session is full. Please try later!");
   }
@@ -92,70 +93,145 @@ database.ref("players/player2/playerName").on("value", function(childSnapshot){
 });
 
 database.ref("players/player1/playerWins").on("value", function(childSnapshot){
-  if(childSnapshot.val() == null){
-
-  }
-  else{
-    $(".playerTitle1").append("<p>Wins: "+childSnapshot.val()+"</p>");
-  }
+  $("#player1Score").html(childSnapshot.val());
 });
 
 database.ref("players/player2/playerWins").on("value", function(childSnapshot){
-  if(childSnapshot.val() == null){
-
-  }
-  else{
-    $(".playerTitle2").append("<p>Wins: "+childSnapshot.val()+"</p>");
-  }
+    $("#player2Score").html(childSnapshot.val());
   });
 
 
 var gameStart= function(){
-  $(".player2Button").prop("disabled",true);
-  $("#player2choice").html("Waiting on player 1");
-  console.log("FIGHT");
-  $("body").on("click",'#player1Rock', function(){
+
+  $("body").on("click",'#player1Rock', function(e){
+    e.preventDefault();
     $(".player1Button").prop("disabled",true);
-    $(".player2Button").prop("disabled",false);
+    database.ref("turn/turn").set(true);
     database.ref("players/player1/playerChoice").set("rock");
     console.log("P1 ROCK");
   });
 
-  $("body").on("click",'#player1Paper', function(){
+  $("body").on("click",'#player1Paper', function(e){
+    e.preventDefault();
     $(".player1Button").prop("disabled",true);
-    $(".player2Button").prop("disabled",false);
+    database.ref("turn/turn").set(true);
     database.ref("players/player1/playerChoice").set("paper");
     console.log("P1 PAP");
   });
 
-  $("body").on("click",'#player1Scissors', function(){
+  $("body").on("click",'#player1Scissors', function(e){
+    e.preventDefault();
     $(".player1Button").prop("disabled",true);
-    $(".player2Button").prop("disabled",false);
+    database.ref("turn/turn").set(true);
     database.ref("players/player1/playerChoice").set("scissors");
     console.log("P1 SC");
   });
+};
 
-  $("body").on("click",'#player2Rock', function(){
-    $(".player2Button").prop("disabled",true);
-    database.ref("players/player2/playerChoice").set("rock");
-    console.log("P2 ROCK");
+database.ref("turn/turn").on("value", function(childSnapshot){
+  if (childSnapshot.val() == true){
+
+    $(".player2Button").removeAttr("disabled");
+
+    $("body").on("click",'#player2Rock', function(e){
+      e.preventDefault();
+      $(".player2Button").prop("disabled",true);
+      database.ref("players/player2/playerChoice").set("rock");
+      fight();
+      console.log("P2 ROCK");
+    });
+
+    $("body").on("click",'#player2Paper', function(e){
+      e.preventDefault();
+      $(".player2Button").prop("disabled",true);
+      database.ref("players/player2/playerChoice").set("paper");
+      fight();
+      console.log("P2 PAP");
+    });
+
+    $("body").on("click",'#player2Scissors', function(e){
+      e.preventDefault();
+      $(".player2Button").prop("disabled",true);
+      database.ref("players/player2/playerChoice").set("scissors");
+      fight();
+      console.log("P2 SC");
+    });
+  }
+  if (childSnapshot.val() == false){
+    $(".player1Button").removeAttr("disabled");
+      console.log("OOOOHMY");
+  }
+});
+
+
+
+var fight = function(){
+
+  console.log("FIGHT Ding");
+  var player1Choice;
+  var player2Choice;
+  var player1Wins;
+  var player2Wins;
+
+
+  database.ref("players/player1/playerChoice").once('value', function(childSnapshot){
+    player1Choice= childSnapshot.val();
+  });
+  database.ref("players/player2/playerChoice").once('value', function(childSnapshot){
+    player2Choice= childSnapshot.val();
+  });
+  database.ref("players/player1/playerWins").once('value', function(childSnapshot){
+    player1Wins= childSnapshot.val();
+    console.log(player1Wins);
+  });
+  database.ref("players/player2/playerWins").once('value', function(childSnapshot){
+    player2Wins= childSnapshot.val();
+    console.log(player2Wins);
   });
 
-  $("body").on("click",'#player2Paper', function(){
-    $(".player2Button").prop("disabled",true);
-    database.ref("players/player2/playerChoice").set("paper");
-    console.log("P2 PAP");
-  });
-
-  $("body").on("click",'#player2Scissors', function(){
-    $(".player2Button").prop("disabled",true);
-    database.ref("players/player2/playerChoice").set("scissors");
-    console.log("P2 SC");
-  });
-
+    if ((player1Choice === "rock") && (player2Choice === "scissors")) {
+      player1Wins++;
+      database.ref("players/player1/playerWins").set(player1Wins);
+      database.ref("messages").push({playerName: "GAME", playerMessage: "Player 1 wins - Rock vs Scissors", playerId: "GAME"});
+      restart();
+    } else if ((player1Choice === "rock") && (player2Choice === "paper")) {
+      player2Wins++;
+      database.ref("players/player2/playerWins").set(player2Wins);
+      database.ref("messages").push({playerName: "GAME", playerMessage: "Player 2 wins - Rock vs Paper", playerId: "GAME"});
+      restart();
+    } else if ((player1Choice === "scissors") && (player2Choice === "rock")) {
+      player2Wins++;
+      database.ref("players/player2/playerWins").set(player2Wins);
+      database.ref("messages").push({playerName: "GAME", playerMessage: "Player 2 wins - Scissors vs Rock", playerId: "GAME"});
+      restart();
+    } else if ((player1Choice === "scissors") && (player2Choice === "paper")) {
+      player1Wins++;
+      database.ref("players/player1/playerWins").set(player1Wins);
+      database.ref("messages").push({playerName: "GAME", playerMessage: "Player 1 wins - Scissors vs Paper", playerId: "GAME"});
+      restart();
+    } else if ((player1Choice === "paper") && (player2Choice === "rock")) {
+      player1Wins++;
+      database.ref("players/player1/playerWins").set(player1Wins);
+      database.ref("messages").push({playerName: "GAME", playerMessage: "Player 1 wins - Paper vs Rock", playerId: "GAME"});
+      restart();
+    } else if ((player1Choice === "paper") && (player2Choice === "scissors")) {
+      player2Wins++;
+      database.ref("players/player2/playerWins").set(player2Wins);
+      database.ref("messages").push({playerName: "GAME", playerMessage: "Player 2 wins - Paper vs Scissors", playerId: "GAME"});
+      restart();
+    } else if ((player1Choice === player2Choice)){
+      database.ref("messages").push({playerName: "GAME", playerMessage: "Tie!", playerId: "GAME"});
+      restart();
+    }
 };
 
 
+var restart = function(){
+  $(".player1Button").removeAttr("disabled");
+  database.ref("turn").set({turn: false});
+  database.ref("players/player2/playerChoice").set("null");
+  database.ref("players/player1/playerChoice").set("null");
+};
 /* Chat Logic */
 
 $('#messageSend').on("click", function(event) {
@@ -168,6 +244,8 @@ $('#messageSend').on("click", function(event) {
 database.ref("messages").on("child_added", function(childSnapshot) {
 
   $(".messages").append('<p><span class="bubble ' + childSnapshot.val().playerId + '"><span class="chatName">' + childSnapshot.val().playerName + ': </span>' + childSnapshot.val().playerMessage + '</span></p>');
+
+  $(".messages").stop().animate({ scrollTop: $(".messages")[0].scrollHeight}, 1000);
 });
 
 //snapshot .val .numchildren .child .exists
