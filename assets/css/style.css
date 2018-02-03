@@ -1,20 +1,36 @@
-header{
-  background-color: black;
-  color: white;
-  text-align: center;
+body {
+  color: #2A363B;
+  background-color: #F7F9F9;
+  font-family: 'Roboto', sans-serif;
 }
 
-.hide{
+header, .modal-title, .modal-header {
+  background-color: #2A363B;
+  color: #F7F9F9;
+  text-align: center;
+  font-family: 'Rammetto One', cursive;
+}
+
+button {
+  background-color: #69D2E7;
+  color: #F7F9F9;
+}
+
+.container {
+  margin-top: 20px;
+}
+
+.hide {
   display: none;
 }
 
-#chatContainer{
+#chatContainer {
   min-height: 300px;
 }
 
-.messages{
-  background-color: #ECEFF1;
-  border: 2px solid grey;
+.messages {
+  background-color: #FFF;
+  border: 1px solid rgba(0, 0, 0, .125);
   width: 100%;
   height: 300px;
   overflow: scroll;
@@ -22,35 +38,72 @@ header{
   flex-flow: column;
 }
 
-#messageInput{
+#messageInput {
   width: 93%;
+  border-radius: 0 0 0 5px;
 }
-.chatInputContainer{
+
+#messageSend {
+  border-radius: 0 0 5px 0;
+}
+
+.chatInputContainer {
   /* position: relative; */
-  background-color: white;
-  height: 21px;
+  background-color: #F7F9F9;
+  padding: 0 15px;
   /* bottom: 20px;
   right: 0px; */
 }
-.bubble{
+
+.bubble {
   margin-left: 10px;
   padding: 2px 8px;
   border-radius: 0 20px 20px 20px;
   /* border: 1px solid grey; */
   /* opacity: .8; */
-  box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.75);
+  box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.75);
   align-self: flex-end;
 }
-.chatName{
+
+.chatName {
   font-weight: bold;
 }
-.player1{
-  background-color: #FFF;
-}
-.player2{
-  background-color: #C4CFD4;
+
+.player1 {
+  background-color: #F38630;
 }
 
-.GAME{
-  color: red;
+.player2 {
+  background-color: #A7DBD8;
+}
+
+.GAME {
+  color: #FA6900;
+}
+
+#setPlayerName {
+  width: 95%;
+  margin-bottom: 10px;
+}
+
+#setPlayerNameSend {
+  border-radius: 5px;
+}
+
+.col-md-10 {
+  padding: 0;
+}
+
+.colPlayer1 {
+  border-radius: 5px 0 0 0;
+  background-color: #F38630;
+  height: 150px;
+  font-family: 'Rammetto One', cursive;
+}
+
+.colPlayer2 {
+  border-radius: 0 5px 0 0;
+  background-color: #A7DBD8;
+  height: 150px;
+  font-family: 'Rammetto One', cursive;
 }
