@@ -1,4 +1,4 @@
-# RPS-multiplayer
+# rock-paper-scissors-multiplayer
 multiplayer paper rocks scissors game using Firebase and jQuery.
 
 ## Rock Paper Scissors
@@ -11,4 +11,4 @@ Load the page and choose your user name. Once an opponent has joined the game, p
 
 ## How to run the program
 
-You can simply go to https://ejreymond-christensen.github.io/ut-rps-multiplayer/ . Or you can go to `ut-rps-multiplayer` repo and download the repo. Simply open `index.html` in your favorite browser and start playing.
+You can simply go to https://ejreymond-christensen.github.io/rock-paper-scissors-multiplayer/. Or you can go to `rock-paper-scissors-multiplayer` repo and download the repo. Simply open `index.html` in your favorite browser and start playing.
