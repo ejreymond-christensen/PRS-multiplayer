@@ -1,5 +1,5 @@
 # rock-paper-scissors-multiplayer
-multiplayer paper rocks scissors game using Firebase and jQuery.
+multiplayer paper rocks scissors game with chat using Firebase and jQuery.
 
 ## Rock Paper Scissors
 
